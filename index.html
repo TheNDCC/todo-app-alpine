@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"
+    />
+    <title>Todo App Alpine</title>
+  </head>
+  <body x-data="app()">
+    <section class="section">
+      <div class="container">
+        <div class="box">
+          <h1 class="title is-3 has-text-centered">Lista de Tareas</h1>
+
+          <div class="field has-addons mb-4">
+            <div class="control is-expanded">
+              <input
+                type="text"
+                x-model="search"
+                x-on:keyup.enter="todoList.push(search); search = ''"
+                placeholder="Agregar tarea"
+                class="input is-medium"
+              />
+            </div>
+            <div class="control">
+              <button
+                class="button is-primary is-medium"
+                x-on:click="todoList.push(search); search = ''"
+              >
+                Agregar
+              </button>
+            </div>
+          </div>
+
+          <div class="buttons is-right mb-4">
+            <button
+              class="button is-danger"
+              x-on:click="todoList = []; eraseds = []; finished = []"
+            >
+              Borrar todas las Tareas
+            </button>
+          </div>
+
+          <table class="table is-striped is-fullwidth is-hoverable">
+            <thead>
+              <tr>
+                <th>Tarea</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <template x-for="(value, index) in todoList" :key="index">
+                <tr>
+                  <td x-text="value"></td>
+                  <td>
+                    <div class="buttons">
+                      <button
+                        class="button is-small is-danger"
+                        x-on:click="eraseds.push(todoList.splice(index, 1)[0])"
+                      >
+                        Eliminar
+                      </button>
+                      <button
+                        class="button is-small is-success"
+                        x-on:click="finished.push(todoList.splice(index,1)[0])"
+                      >
+                        Terminado
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="columns">
+          <div class="column">
+            <div class="box">
+              <h2 class="subtitle has-text-centered">Tareas Eliminadas</h2>
+              <table class="table is-striped is-fullwidth is-hoverable">
+                <thead>
+                  <tr>
+                    <th>Tarea</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="(value, index) in eraseds" :key="index">
+                    <tr>
+                      <td x-text="value"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="box">
+              <h2 class="subtitle has-text-centered">Tareas Terminadas</h2>
+              <table class="table is-striped is-fullwidth is-hoverable">
+                <thead>
+                  <tr>
+                    <th>Tarea</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template x-for="(value, index) in finished" :key="index">
+                    <tr>
+                      <td x-text="value"></td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="tabs is-centered is-boxed">
+      <ul>
+        <li class="is-active">
+          <a>
+            <span class="icon is-small"
+              ><i class="fas fa-image" aria-hidden="true"></i
+            ></span>
+            <span>Pictures</span>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class="icon is-small"
+              ><i class="fas fa-music" aria-hidden="true"></i
+            ></span>
+            <span>Music</span>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class="icon is-small"
+              ><i class="fas fa-film" aria-hidden="true"></i
+            ></span>
+            <span>Videos</span>
+          </a>
+        </li>
+        <li>
+          <a>
+            <span class="icon is-small"
+              ><i class="far fa-file-alt" aria-hidden="true"></i
+            ></span>
+            <span>Documents</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <script src="/app.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+  </body>
+</html>
